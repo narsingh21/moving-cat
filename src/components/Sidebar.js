@@ -3,25 +3,16 @@ import Icon from './Icon';
 
 export default function Sidebar({ data, updateMidAreaList }) {
   const onDrag = (e) => {
-    // event.preventDefault();
     console.log('drag start');
     e.dataTransfer.setData('text/plain', '');
   };
-  // const onDragOver = (event) => {
-  //   event.preventDefault();
-  // };
+
   const onDrop = (e, item) => {
-    // ev.dataTransfer.setData('text/html', ev.target.outerHTML);
-    // ev.dataTransfer.setData(
-    //   'text/uri-list',
-    //   ev.target.ownerDocument.location.href
-    // );
     console.log('drop event');
     if (e.clientX !== 0 && e.clientY !== 0) {
       updateMidAreaList(item, {
         x: e.clientX,
         y: e.clientY,
-        // setPosition();
       });
     }
   };
