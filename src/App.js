@@ -7,7 +7,7 @@ import { Input } from './Input';
 
 export default function App() {
   const [midAreaList, setMidAreaList] = useState([]);
-  const [positions, setPostions] = useState([]);
+
   const [catPosition, setCatPosition] = useState({ x: 0, y: -100, angle: 0 });
   const [looksData, setLooksData] = useState({
     firstBtnText: 'Hello!',
@@ -219,8 +219,10 @@ export default function App() {
   };
 
   const updateMidAreaList = (item, position) => {
-    setMidAreaList([...midAreaList, item]);
-    setPostions([...positions, position]);
+    setMidAreaList([
+      ...midAreaList,
+      { ...item, id: midAreaList.length, position },
+    ]);
   };
 
   // const updateCatPosition = () => {
@@ -233,7 +235,7 @@ export default function App() {
       <div className='h-screen overflow-hidden flex flex-row  '>
         <div className='flex-1 h-screen overflow-hidden flex flex-row bg-white border-t border-r border-gray-200 rounded-tr-xl mr-2'>
           <Sidebar data={sideBarData} updateMidAreaList={updateMidAreaList} />{' '}
-          <MidArea data={midAreaList} positions={positions} />
+          <MidArea data={midAreaList} setMidAreaList={setMidAreaList} />
         </div>
         <div className='w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2'>
           <PreviewArea
