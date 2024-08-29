@@ -9,6 +9,7 @@ export default function App() {
   const [midAreaList, setMidAreaList] = useState([]);
 
   const [catPosition, setCatPosition] = useState({ x: 100, y: 100, angle: 0 });
+  const [tempCord, setTempCord] = useState({ x: 100, y: 100, angle: 0 });
   const [looksData, setLooksData] = useState({
     firstBtnText: 'Hello!',
     secondBtnText: 'Hello!',
@@ -77,20 +78,25 @@ export default function App() {
       {
         id: 4,
         element: (
-          <div className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'>
-            {'set yp to '}
-            <input
-              type='text'
-              // maxLength='2'
-              // size='1'
-              // className='border-none rounded'
-              // value={catPosition.y}
-              // onChange={(e) => {
-              //   setCatPosition((catPosition) => ({
-              //     ...catPosition,
-              //     y: catPosition.y + Number(e.target.value),
-              //   }));
-              // }}
+          <div
+            onClick={() => {
+              setCatPosition((catPosition) => ({
+                ...catPosition,
+                y: tempCord.y,
+              }));
+            }}
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+          >
+            {'set y to '}
+
+            <Input
+              onChange={(val) => {
+                setTempCord((prev) => ({
+                  ...prev,
+                  y: Number(val),
+                }));
+              }}
+              defautlValue={tempCord.y.toString()}
             />
           </div>
         ),

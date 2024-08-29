@@ -9,7 +9,7 @@ export default function PreviewArea({ catPosition, lookState }) {
     catRef.current.style.transform = `translate(${x}px,${y}px) rotate(${angle}deg)`;
   }, [x, y, angle]);
 
-  console.log(catPosition, 'catpositin');
+  
 
   return (
     <div ref={catRef} className='flex-none h-32  relative overflow-visible p-2'>
