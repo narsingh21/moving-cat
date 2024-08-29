@@ -8,7 +8,7 @@ import { Input } from './Input';
 export default function App() {
   const [midAreaList, setMidAreaList] = useState([]);
 
-  const [catPosition, setCatPosition] = useState({ x: 0, y: -100, angle: 0 });
+  const [catPosition, setCatPosition] = useState({ x: 100, y: 100, angle: 0 });
   const [looksData, setLooksData] = useState({
     firstBtnText: 'Hello!',
     secondBtnText: 'Hello!',
@@ -225,11 +225,6 @@ export default function App() {
     ]);
   };
 
-  // const updateCatPosition = () => {
-  //   // setCatPosition([])
-  // };
-
-  console.log(midAreaList, 'midarea');
   return (
     <div className='bg-blue-100 pt-6 font-sans'>
       <div className='h-screen overflow-hidden flex flex-row  '>

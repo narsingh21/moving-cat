@@ -4,12 +4,10 @@ import { Input } from '../Input';
 
 export default function Sidebar({ data, updateMidAreaList }) {
   const onDrag = (e) => {
-    console.log('drag start');
     e.dataTransfer.setData('text/plain', '');
   };
 
   const onDrop = (e, item) => {
-    console.log('drop event');
     if (e.clientX !== 0 && e.clientY !== 0) {
       updateMidAreaList(item, {
         x: e.clientX,

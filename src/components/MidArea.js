@@ -3,7 +3,7 @@ import DragElement from './DragElement';
 
 export default function MidArea({ data, setMidAreaList }) {
   const onDrag = (e) => {
-    console.log('drag start');
+
     e.dataTransfer.setData('text/plain', '');
   };
 
@@ -13,7 +13,7 @@ export default function MidArea({ data, setMidAreaList }) {
   };
 
   const onDrop = (e, item) => {
-    console.log('drop event');
+  
     if (e.clientX !== 0 && e.clientY !== 0) {
       updateMidAreaList(item);
     }
