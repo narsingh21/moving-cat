@@ -20,6 +20,11 @@ export default function App() {
   });
 
   const [lookState, setLookState] = useState({ show: false, message: '' });
+  const [actionPerformedList, setActionPerformed] = useState([]);
+
+  const updatActionList = (callBack) => {
+    setActionPerformed((prev) => [...prev, callBack]);
+  };
 
   const sideBarData = {
     motionList: [
@@ -32,6 +37,12 @@ export default function App() {
                 ...catPosition,
                 x: catPosition.x + 10,
               }));
+              updatActionList(() =>
+                setCatPosition((catPosition) => ({
+                  ...catPosition,
+                  x: catPosition.x + 10,
+                }))
+              );
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
           >
@@ -48,6 +59,12 @@ export default function App() {
                 ...catPosition,
                 angle: catPosition.angle + 15,
               }));
+              updatActionList(() =>
+                setCatPosition((catPosition) => ({
+                  ...catPosition,
+                  angle: catPosition.angle + 15,
+                }))
+              );
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
           >
@@ -66,6 +83,12 @@ export default function App() {
                 ...catPosition,
                 angle: catPosition.angle - 15,
               }));
+              updatActionList(() =>
+                setCatPosition((catPosition) => ({
+                  ...catPosition,
+                  angle: catPosition.angle - 15,
+                }))
+              );
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
           >
@@ -84,6 +107,13 @@ export default function App() {
                 ...catPosition,
                 y: tempCord.y,
               }));
+
+              updatActionList(() =>
+                setCatPosition((catPosition) => ({
+                  ...catPosition,
+                  y: tempCord.y,
+                }))
+              );
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
           >
@@ -119,6 +149,19 @@ export default function App() {
                   show: false,
                 }));
               }, Number(looksData.firstBtnTime) * 1000);
+              updatActionList(() => {
+                setLookState((lookState) => ({
+                  ...lookState,
+                  show: true,
+                  message: looksData.firstBtnText,
+                }));
+                setTimeout(() => {
+                  setLookState((lookState) => ({
+                    ...lookState,
+                    show: false,
+                  }));
+                }, Number(looksData.firstBtnTime) * 1000);
+              });
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
           >
@@ -178,6 +221,19 @@ export default function App() {
                   show: false,
                 }));
               }, Number(looksData.thirdBtnTime) * 1000);
+              updatActionList(() => {
+                setLookState((lookState) => ({
+                  ...lookState,
+                  show: true,
+                  message: looksData.thirdBtnText,
+                }));
+                setTimeout(() => {
+                  setLookState((lookState) => ({
+                    ...lookState,
+                    show: false,
+                  }));
+                }, Number(looksData.thirdBtnTime) * 1000);
+              });
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
           >
@@ -208,6 +264,13 @@ export default function App() {
                 show: true,
                 message: looksData.fourthBtnText,
               }));
+              updatActionList(
+                setLookState((lookState) => ({
+                  ...lookState,
+                  show: true,
+                  message: looksData.fourthBtnText,
+                }))
+              );
             }}
             className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
           >
@@ -235,7 +298,11 @@ export default function App() {
     <div className='bg-blue-100 pt-6 font-sans'>
       <div className='h-screen overflow-hidden flex flex-row  '>
         <div className='flex-1 h-screen overflow-hidden flex flex-row bg-white border-t border-r border-gray-200 rounded-tr-xl mr-2'>
-          <Sidebar data={sideBarData} updateMidAreaList={updateMidAreaList} />{' '}
+          <Sidebar
+            data={sideBarData}
+            updateMidAreaList={updateMidAreaList}
+            actionPerformedList={actionPerformedList}
+          />{' '}
           <MidArea data={midAreaList} setMidAreaList={setMidAreaList} />
         </div>
         <div className='w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2'>

@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Icon from './Icon';
 import { Input } from '../Input';
 
-export default function Sidebar({ data, updateMidAreaList }) {
+export default function Sidebar({
+  data,
+  updateMidAreaList,
+  actionPerformedList,
+}) {
+  const [actionNo, setActionNo] = useState();
   const onDrag = (e) => {
     e.dataTransfer.setData('text/plain', '');
   };
@@ -49,6 +54,25 @@ export default function Sidebar({ data, updateMidAreaList }) {
           {el.element}
         </div>
       ))}
+      <div className='font-bold'>
+        {' '}
+        {'actionPermod'}:{actionPerformedList?.length}{' '}
+      </div>
+      <div
+        onClick={() => {
+          actionNo && actionPerformedList[+actionNo - 1]();
+        }}
+        className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+      >
+        {'replay'}
+        <Input
+          onChange={(val) => setActionNo(val)}
+          defautlValue={actionNo}
+          min={1}
+          max={actionPerformedList.length}
+        />
+        {'th Action'}
+      </div>
     </div>
   );
 }

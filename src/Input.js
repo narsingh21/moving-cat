@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import React from 'react';
 
-export const Input = ({ onChange, defautlValue }) => {
+export const Input = ({ onChange, defautlValue, min, max }) => {
   const [value, setValue] = useState(defautlValue ?? '');
   const inputRef = useRef(null);
   const handleInputChange = (e) => {
@@ -15,10 +15,11 @@ export const Input = ({ onChange, defautlValue }) => {
     inputRef.current.style.width = `${value.length * 8 + 16}px`;
   }, [value]);
   return (
-    <div  className='flex w-auto'>
+    <div className='flex w-auto'>
       <input
-        className='text-gray-700 rounded-lg  flex-1  focus:outline-none  p-0
-         '
+        className='text-gray-700 rounded-lg  flex-1  focus:outline-none  p-0   '
+        min={min}
+        max={max}
         type='text'
         ref={inputRef}
         onChange={(e) => handleInputChange(e)}
