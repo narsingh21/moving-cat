@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from './Icon';
+import { Input } from '../Input';
 
 export default function Sidebar({ data, updateMidAreaList }) {
   const onDrag = (e) => {
@@ -40,7 +41,16 @@ export default function Sidebar({ data, updateMidAreaList }) {
         </div>
       ))}
       <div className='font-bold'> {'Looks'} </div>
-      {/* {data?.looksList?.map((el) => el.element)} */}
+      {data?.looksList?.map((el) => (
+        <div
+          key={el.id}
+          draggable
+          onDragStart={(event) => onDrag(event)}
+          onDragEnd={(event) => onDrop(event, el)}
+        >
+          {el.element}
+        </div>
+      ))}
     </div>
   );
 }
