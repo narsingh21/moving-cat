@@ -8,8 +8,7 @@ function ElementContainer({ children, item }) {
     childList.forEach((button) => {
       button.onClick();
     });
-    // elementRef.current.style.border = '10px';
-    // elementRef.current.style.borderColor = 'yellow';
+
     elementRef.current.style.boxShadow = '0px 0px 15px yellow';
     setTimeout(() => (elementRef.current.style.boxShadow = ''), 500);
   }
