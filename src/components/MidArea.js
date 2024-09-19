@@ -38,12 +38,13 @@ export default function MidArea({ midAreaObj, setMidAreaObj }) {
       ))} */}
       {Object.keys(midAreaObj).map((key) => (
         <ElementContainer
-          position={{
-            x: midAreaObj[key].x,
-            y: midAreaObj[key].y,
-          }}
-          width={midAreaObj[key].width}
-          height={midAreaObj[key].height}
+          item={midAreaObj[key]}
+          // position={{
+          //   x: midAreaObj[key].x,
+          //   y: midAreaObj[key].y,
+          // }}
+          // width={midAreaObj[key].width}
+          // height={midAreaObj[key].height}
           key={key}
         >
           {midAreaObj[key].childList.map((el, index) => {

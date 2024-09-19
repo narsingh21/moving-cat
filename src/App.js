@@ -29,6 +29,18 @@ export default function App() {
     motionList: [
       {
         id: 1,
+        onClick: () => {
+          setCatPosition((catPosition) => ({
+            ...catPosition,
+            x: catPosition.x + 10,
+          }));
+          updatActionList(() =>
+            setCatPosition((catPosition) => ({
+              ...catPosition,
+              x: catPosition.x + 10,
+            }))
+          );
+        },
         element: (
           <div
             onClick={() => {
@@ -51,6 +63,18 @@ export default function App() {
       },
       {
         id: 2,
+        onClick: () => {
+          setCatPosition((catPosition) => ({
+            ...catPosition,
+            angle: catPosition.angle + 15,
+          }));
+          updatActionList(() =>
+            setCatPosition((catPosition) => ({
+              ...catPosition,
+              angle: catPosition.angle + 15,
+            }))
+          );
+        },
         element: (
           <div
             onClick={() => {
@@ -75,6 +99,18 @@ export default function App() {
       },
       {
         id: 3,
+        onClick: () => {
+          setCatPosition((catPosition) => ({
+            ...catPosition,
+            angle: catPosition.angle - 15,
+          }));
+          updatActionList(() =>
+            setCatPosition((catPosition) => ({
+              ...catPosition,
+              angle: catPosition.angle - 15,
+            }))
+          );
+        },
         element: (
           <div
             onClick={() => {
@@ -99,6 +135,19 @@ export default function App() {
       },
       {
         id: 4,
+        onClick: () => {
+          setCatPosition((catPosition) => ({
+            ...catPosition,
+            y: tempCord.y,
+          }));
+
+          updatActionList(() =>
+            setCatPosition((catPosition) => ({
+              ...catPosition,
+              y: tempCord.y,
+            }))
+          );
+        },
         element: (
           <div
             onClick={() => {
@@ -134,6 +183,32 @@ export default function App() {
     looksList: [
       {
         id: 5,
+        onClick: () => {
+          setLookState((lookState) => ({
+            ...lookState,
+            show: true,
+            message: looksData.firstBtnText,
+          }));
+          setTimeout(() => {
+            setLookState((lookState) => ({
+              ...lookState,
+              show: false,
+            }));
+          }, Number(looksData.firstBtnTime) * 1000);
+          updatActionList(() => {
+            setLookState((lookState) => ({
+              ...lookState,
+              show: true,
+              message: looksData.firstBtnText,
+            }));
+            setTimeout(() => {
+              setLookState((lookState) => ({
+                ...lookState,
+                show: false,
+              }));
+            }, Number(looksData.firstBtnTime) * 1000);
+          });
+        },
         element: (
           <div
             onClick={() => {
@@ -183,6 +258,13 @@ export default function App() {
       },
       {
         id: 6,
+        onClick: () => {
+          setLookState((lookState) => ({
+            ...lookState,
+            show: true,
+            message: looksData.secondBtnText,
+          }));
+        },
         element: (
           <div
             onClick={() => {
@@ -206,6 +288,32 @@ export default function App() {
       },
       {
         id: 7,
+        onClick: () => {
+          setLookState((lookState) => ({
+            ...lookState,
+            show: true,
+            message: looksData.thirdBtnText,
+          }));
+          setTimeout(() => {
+            setLookState((lookState) => ({
+              ...lookState,
+              show: false,
+            }));
+          }, Number(looksData.thirdBtnTime) * 1000);
+          updatActionList(() => {
+            setLookState((lookState) => ({
+              ...lookState,
+              show: true,
+              message: looksData.thirdBtnText,
+            }));
+            setTimeout(() => {
+              setLookState((lookState) => ({
+                ...lookState,
+                show: false,
+              }));
+            }, Number(looksData.thirdBtnTime) * 1000);
+          });
+        },
         element: (
           <div
             onClick={() => {
@@ -255,6 +363,20 @@ export default function App() {
       },
       {
         id: 8,
+        onClick: () => {
+          setLookState((lookState) => ({
+            ...lookState,
+            show: true,
+            message: looksData.fourthBtnText,
+          }));
+          updatActionList(
+            setLookState((lookState) => ({
+              ...lookState,
+              show: true,
+              message: looksData.fourthBtnText,
+            }))
+          );
+        },
         element: (
           <div
             onClick={() => {
@@ -348,7 +470,7 @@ export default function App() {
         x: position.x,
         y: position.y,
         width: 180,
-        height: 80,
+        height: 50,
       };
     }
     setMidAreaObj((prev) => ({ ...prev, ...updatedObj }));
