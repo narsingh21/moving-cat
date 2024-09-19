@@ -22,7 +22,7 @@ function ElementContainer({ children, item }) {
     elementRef.current.style.height = `${height}px`;
   }, [x, y, width, height]);
   return (
-    <div className=' absolute' onClick={handleSprite} ref={elementRef}>
+    <div className=' bg-red absolute' onClick={handleSprite} ref={elementRef}>
       {children}
     </div>
   );

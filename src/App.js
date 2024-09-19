@@ -411,33 +411,39 @@ export default function App() {
   const createRandomKey = () => Math.random().toString().slice(-7);
 
   const checkForItemParent = (item, position) => {
+    console.log(position.x);
     const parent =
       Object.keys(midAreaObj).find(
         (key) =>
           midAreaObj[key].x < position.x &&
-          midAreaObj[key].x + midAreaObj[key].width > position.x
+          midAreaObj[key].x + midAreaObj[key].width > position.x &&
+          midAreaObj[key].y < position.y &&
+          position.y < midAreaObj[key].y + midAreaObj[key].height
       ) ?? false;
     const parentforLower = Object.keys(midAreaObj).find(
       (key) =>
         midAreaObj[key].y < position.y &&
-        position.y > midAreaObj[key].y + midAreaObj[key].height
+        position.y < midAreaObj[key].y + midAreaObj[key].height
     );
     const parentforUpper = Object.keys(midAreaObj).find(
       (key) =>
-        midAreaObj[key].y - midAreaObj[key].width < position.y &&
-        position.y < midAreaObj[key].y
+        midAreaObj[key].y - 40 < position.y &&
+        position.y + midAreaObj[key].height < midAreaObj[key].y
     );
     if (parent) {
+      console.log('case1');
       return { parent, action: 'push' };
     } else if (parentforLower) {
+      console.log('case2');
       return { parnet: parentforLower, action: 'push' };
     } else if (parentforUpper) {
+      console.log('case3');
       return { parent: parentforUpper, action: 'pull' };
     }
     return { parent: false, action: 'create' };
   };
 
-  const updateMidAreaList = (item, position) => {
+  const updateMidAreaList = (item, position, skip) => {
     // console.log(position);
     const { parent, action } = checkForItemParent(item, position);
     console.log(parent, action);
@@ -464,21 +470,18 @@ export default function App() {
         default:
       }
     } else {
-      const key = createRandomKey();
-      updatedObj[key] = {
-        childList: [{ ...item, id: createRandomKey(), position }],
-        x: position.x,
-        y: position.y,
-        width: 180,
-        height: 50,
-      };
+      if (!skip) {
+        const key = createRandomKey();
+        updatedObj[key] = {
+          childList: [{ ...item, id: createRandomKey(), position }],
+          x: position.x,
+          y: position.y,
+          width: 150,
+          height: 40,
+        };
+      }
     }
     setMidAreaObj((prev) => ({ ...prev, ...updatedObj }));
-
-    // setMidAreaList([
-    //   ...midAreaList,
-    //   { ...item, id: midAreaList.length, position },
-    // ]);
   };
 
   return (
@@ -490,7 +493,11 @@ export default function App() {
             updateMidAreaList={updateMidAreaList}
             actionPerformedList={actionPerformedList}
           />{' '}
-          <MidArea midAreaObj={midAreaObj} setMidAreaObj={setMidAreaObj} />
+          <MidArea
+            midAreaObj={midAreaObj}
+            setMidAreaObj={setMidAreaObj}
+            updateMidAreaList={updateMidAreaList}
+          />
         </div>
         <div className='w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2'>
           <PreviewArea

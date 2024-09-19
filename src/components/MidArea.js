@@ -1,22 +1,38 @@
 import React from 'react';
 import DragElement from './DragElement';
 
-import '../styles/MidArea.css';
 import ElementContainer from './ElementContainer';
+import { flushSync } from 'react-dom';
 
-export default function MidArea({ midAreaObj, setMidAreaObj }) {
+export default function MidArea({
+  midAreaObj,
+  setMidAreaObj,
+  updateMidAreaList,
+}) {
   const onDrag = (e) => {
     e.dataTransfer.setData('text/plain', '');
   };
 
-  const updateMidAreaList = (item) => {
-    setMidAreaObj((prev) => prev.filter((el) => el.id !== item.id));
+  const updateMidAreaListLocal = (e, key, el) => {
+    const updatedObj = midAreaObj;
+    updatedObj[key].childList = updatedObj[key].childList.filter(
+      (item) => item.id !== el.id
+    );
+    flushSync(() => setMidAreaObj((prev) => ({ ...prev, ...updatedObj })));
+    if (e.clientX !== 0 && e.clientY !== 0) {
+      updateMidAreaList(el, {
+        x: e.clientX,
+        y: e.clientY,
+      },'not-create');
+    }
+    //  updateMidAreaList()
+    // setMidAreaObj((prev) => prev.filter((el) => el.id !== item.id));
     // setPostions([...positions, position]);
   };
 
-  const onDrop = (e, item) => {
+  const onDrop = (e, key, el) => {
     if (e.clientX !== 0 && e.clientY !== 0) {
-      updateMidAreaList(item);
+      updateMidAreaListLocal(e, key, el);
     }
   };
 
@@ -24,36 +40,15 @@ export default function MidArea({ midAreaObj, setMidAreaObj }) {
 
   return (
     <div className='flex-1 h-full overflow-auto '>
-      {/* {data.map((el, index) => (
-        <DragElement position={el.position} key={index}>
-          <div
-            draggable
-            onDragStart={(event) => onDrag(event)}
-            onDragEnd={(event) => onDrop(event, el)}
-            key={el.id}
-          >
-            {el.element}
-          </div>
-        </DragElement>
-      ))} */}
       {Object.keys(midAreaObj).map((key) => (
-        <ElementContainer
-          item={midAreaObj[key]}
-          // position={{
-          //   x: midAreaObj[key].x,
-          //   y: midAreaObj[key].y,
-          // }}
-          // width={midAreaObj[key].width}
-          // height={midAreaObj[key].height}
-          key={key}
-        >
+        <ElementContainer item={midAreaObj[key]} key={key}>
           {midAreaObj[key].childList.map((el, index) => {
             return (
               <DragElement position={el.position} key={index}>
                 <div
                   draggable
                   onDragStart={(event) => onDrag(event)}
-                  onDragEnd={(event) => onDrop(event, element)}
+                  onDragEnd={(event) => onDrop(event, key, el)}
                   key={el.id}
                 >
                   {el.element}
