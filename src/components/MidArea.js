@@ -18,6 +18,8 @@ export default function MidArea({
     updatedObj[key].childList = updatedObj[key].childList.filter(
       (item) => item.id !== el.id
     );
+    updatedObj[key].childList.length === 0 && delete updatedObj[key];
+
     flushSync(() => setMidAreaObj((prev) => ({ ...prev, ...updatedObj })));
     if (e.clientX !== 0 && e.clientY !== 0) {
       updateMidAreaList(
