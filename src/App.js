@@ -411,7 +411,6 @@ export default function App() {
   const createRandomKey = () => Math.random().toString().slice(-7);
 
   const checkForItemParent = (item, position) => {
-    console.log(position.x);
     const parent =
       Object.keys(midAreaObj).find(
         (key) =>
@@ -431,22 +430,17 @@ export default function App() {
         position.y + midAreaObj[key].height < midAreaObj[key].y
     );
     if (parent) {
-      console.log('case1');
       return { parent, action: 'push' };
     } else if (parentforLower) {
-      console.log('case2');
       return { parnet: parentforLower, action: 'push' };
     } else if (parentforUpper) {
-      console.log('case3');
       return { parent: parentforUpper, action: 'pull' };
     }
     return { parent: false, action: 'create' };
   };
 
   const updateMidAreaList = (item, position, skip) => {
-    // console.log(position);
     const { parent, action } = checkForItemParent(item, position);
-    console.log(parent, action);
 
     let updatedObj = midAreaObj;
     if (parent) {

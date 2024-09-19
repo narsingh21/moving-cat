@@ -20,14 +20,15 @@ export default function MidArea({
     );
     flushSync(() => setMidAreaObj((prev) => ({ ...prev, ...updatedObj })));
     if (e.clientX !== 0 && e.clientY !== 0) {
-      updateMidAreaList(el, {
-        x: e.clientX,
-        y: e.clientY,
-      },'not-create');
+      updateMidAreaList(
+        el,
+        {
+          x: e.clientX,
+          y: e.clientY,
+        },
+        'not-create'
+      );
     }
-    //  updateMidAreaList()
-    // setMidAreaObj((prev) => prev.filter((el) => el.id !== item.id));
-    // setPostions([...positions, position]);
   };
 
   const onDrop = (e, key, el) => {
@@ -35,8 +36,6 @@ export default function MidArea({
       updateMidAreaListLocal(e, key, el);
     }
   };
-
-  console.log(midAreaObj);
 
   return (
     <div className='flex-1 h-full overflow-auto '>

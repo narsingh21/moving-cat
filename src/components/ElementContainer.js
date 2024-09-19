@@ -3,7 +3,6 @@ import React, { useEffect, useRef } from 'react';
 function ElementContainer({ children, item }) {
   const { x, y, width, height, childList } = item;
   const elementRef = useRef(null);
-  console.log(width, height);
 
   function handleSprite() {
     childList.forEach((button) => {
