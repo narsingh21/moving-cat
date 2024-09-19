@@ -6,8 +6,7 @@ import Icon from './components/Icon';
 import { Input } from './Input';
 
 export default function App() {
-  const [midAreaList, setMidAreaList] = useState([]);
-
+  const [midAreaObj, setMidAreaObj] = useState({});
   const [catPosition, setCatPosition] = useState({ x: 100, y: 100, angle: 0 });
   const [tempCord, setTempCord] = useState({ x: 100, y: 100, angle: 0 });
   const [looksData, setLooksData] = useState({
@@ -44,7 +43,7 @@ export default function App() {
                 }))
               );
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer'
           >
             {'Move 10 steps'}
           </div>
@@ -66,7 +65,7 @@ export default function App() {
                 }))
               );
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer'
           >
             {'Turn '}
             <Icon name='redo' size={15} className='text-white mx-2' />
@@ -90,7 +89,7 @@ export default function App() {
                 }))
               );
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 text-sm cursor-pointer'
           >
             {'Turn '}
             <Icon name='undo' size={15} className='text-white mx-2' />
@@ -115,7 +114,7 @@ export default function App() {
                 }))
               );
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer w-auto'
           >
             {'set y to '}
 
@@ -163,7 +162,7 @@ export default function App() {
                 }, Number(looksData.firstBtnTime) * 1000);
               });
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer w-auto'
           >
             {'say'}
             <Input
@@ -193,7 +192,7 @@ export default function App() {
                 message: looksData.secondBtnText,
               }));
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer w-auto'
           >
             {'say'}
             <Input
@@ -235,7 +234,7 @@ export default function App() {
                 }, Number(looksData.thirdBtnTime) * 1000);
               });
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer w-auto'
           >
             {'say'}
             <Input
@@ -272,7 +271,7 @@ export default function App() {
                 }))
               );
             }}
-            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer w-auto'
+            className='flex flex-row flex-wrap bg-blue-500 text-white px-2 py-1  text-sm cursor-pointer w-auto'
           >
             {'say'}
             <Input
@@ -287,15 +286,81 @@ export default function App() {
     ],
   };
 
+  const createRandomKey = () => Math.random().toString().slice(-7);
+
+  const checkForItemParent = (item, position) => {
+    const parent =
+      Object.keys(midAreaObj).find(
+        (key) =>
+          midAreaObj[key].x < position.x &&
+          midAreaObj[key].x + midAreaObj[key].width > position.x
+      ) ?? false;
+    const parentforLower = Object.keys(midAreaObj).find(
+      (key) =>
+        midAreaObj[key].y < position.y &&
+        position.y > midAreaObj[key].y + midAreaObj[key].height
+    );
+    const parentforUpper = Object.keys(midAreaObj).find(
+      (key) =>
+        midAreaObj[key].y - midAreaObj[key].width < position.y &&
+        position.y < midAreaObj[key].y
+    );
+    if (parent) {
+      return { parent, action: 'push' };
+    } else if (parentforLower) {
+      return { parnet: parentforLower, action: 'push' };
+    } else if (parentforUpper) {
+      return { parent: parentforUpper, action: 'pull' };
+    }
+    return { parent: false, action: 'create' };
+  };
+
   const updateMidAreaList = (item, position) => {
-    setMidAreaList([
-      ...midAreaList,
-      { ...item, id: midAreaList.length, position },
-    ]);
+    // console.log(position);
+    const { parent, action } = checkForItemParent(item, position);
+    console.log(parent, action);
+
+    let updatedObj = midAreaObj;
+    if (parent) {
+      switch (action) {
+        case 'push':
+          updatedObj[parent].childList.push({
+            ...item,
+            id: createRandomKey(),
+            position,
+          });
+          updatedObj[parent].height = updatedObj[parent].height + 40;
+          break;
+        case 'pull':
+          updatedObj[parent].childList.splice(1, 0, {
+            ...item,
+            id: createRandomKey(),
+            position,
+          });
+          break;
+
+        default:
+      }
+    } else {
+      const key = createRandomKey();
+      updatedObj[key] = {
+        childList: [{ ...item, id: createRandomKey(), position }],
+        x: position.x,
+        y: position.y,
+        width: 180,
+        height: 80,
+      };
+    }
+    setMidAreaObj((prev) => ({ ...prev, ...updatedObj }));
+
+    // setMidAreaList([
+    //   ...midAreaList,
+    //   { ...item, id: midAreaList.length, position },
+    // ]);
   };
 
   return (
-    <div className='bg-blue-100 pt-6 font-sans'>
+    <div className='bg-blue-100 pt-6 font-sans relative'>
       <div className='h-screen overflow-hidden flex flex-row  '>
         <div className='flex-1 h-screen overflow-hidden flex flex-row bg-white border-t border-r border-gray-200 rounded-tr-xl mr-2'>
           <Sidebar
@@ -303,7 +368,7 @@ export default function App() {
             updateMidAreaList={updateMidAreaList}
             actionPerformedList={actionPerformedList}
           />{' '}
-          <MidArea data={midAreaList} setMidAreaList={setMidAreaList} />
+          <MidArea midAreaObj={midAreaObj} setMidAreaObj={setMidAreaObj} />
         </div>
         <div className='w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2'>
           <PreviewArea

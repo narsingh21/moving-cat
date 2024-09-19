@@ -31,29 +31,31 @@ export default function Sidebar({
       <div className='flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer'>
         {'When this sprite clicked'}
       </div>
-      <div className='font-bold'> {'Motion'} </div>
+      <div className='flex flex-col gap-2'>
+        <div className='font-bold  '> {'Motion'} </div>
 
-      {data?.motionList?.map((el) => (
-        <div
-          draggable
-          onDragStart={(event) => onDrag(event)}
-          onDragEnd={(event) => onDrop(event, el)}
-          key={el.id}
-        >
-          {el.element}
-        </div>
-      ))}
-      <div className='font-bold'> {'Looks'} </div>
-      {data?.looksList?.map((el) => (
-        <div
-          key={el.id}
-          draggable
-          onDragStart={(event) => onDrag(event)}
-          onDragEnd={(event) => onDrop(event, el)}
-        >
-          {el.element}
-        </div>
-      ))}
+        {data?.motionList?.map((el) => (
+          <div
+            draggable
+            onDragStart={(event) => onDrag(event)}
+            onDragEnd={(event) => onDrop(event, el)}
+            key={el.id}
+          >
+            {el.element}
+          </div>
+        ))}
+        <div className='font-bold'> {'Looks'} </div>
+        {data?.looksList?.map((el) => (
+          <div
+            key={el.id}
+            draggable
+            onDragStart={(event) => onDrag(event)}
+            onDragEnd={(event) => onDrop(event, el)}
+          >
+            {el.element}
+          </div>
+        ))}
+      </div>
       <div className='font-bold'>
         {' '}
         {'actionPermod'}:{actionPerformedList?.length}{' '}
